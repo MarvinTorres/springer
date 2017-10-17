@@ -2,7 +2,8 @@
   "author": "kytos",
   "username": "kytos",
   "name": "pathfinder",
-  "description": "Create a graph using the network devices and links and return a best path between two devices.",
+  "description": "Keeps track of topology changes, and calculates the best path between two
+    points.",
   "version": "0.0.1",
   "napp_dependencies": ["kytos/topology"],
   "license": "MIT",
