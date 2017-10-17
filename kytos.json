@@ -4,7 +4,7 @@
   "name": "pathfinder",
   "description": "Create a graph using the network devices and links and return a best path between two devices.",
   "version": "0.0.1",
-  "napp_dependencies": ["kytos/of_core", "kytos/of_lldp"],
+  "napp_dependencies": ["kytos/topology"],
   "license": "MIT",
   "tags": ["pathfinder"],
   "url": "https://github.com/kytos/pathfinder.git"
