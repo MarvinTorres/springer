@@ -1,0 +1,38 @@
+openapi: 3.0.0
+info:
+  title: kytos/pathfinder
+  version: 0.0.1
+  description: "**Warning**: *This documentation is experimental and will
+  change soon.*\n
+
+  Create a graph using the network devices and links to return a best path
+  between two devices."
+
+paths:
+  /api/kytos/pathfinder/<source>/<destination>:
+    get:
+      summary: "Return a JSON with the best path between the
+      source and destination given."
+      parameters:
+        - in: path
+          name: source
+          description: "The source identifier"
+          required: true
+          example: '00:00:00:00:00:00:01'
+        - in: path
+          name: destination
+          description: "The destination identifier"
+          required: true
+          example: '00:00:00:00:00:00:01'
+      responses:
+        200:
+          description: "Calculate the best path between the source
+          and the destination and return a json with the best
+          path."
+          content:
+            application/json:
+              schema:
+                type: array
+                description: "A list of nodes and links that
+                represents the best path between source and
+                destination."
