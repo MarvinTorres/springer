@@ -1,12 +1,9 @@
-"""Main module of kytos/pathfinder Kytos Network Application.
+"""Main module of kytos/pathfinder Kytos Network Application."""
 
-# TODO: <<<< Insert here your NApp description >>>>
-"""
-
-from kytos.core import KytosNApp, log
-
+from kytos.core import KytosNApp, log, rest
+from kytos.core.helpers import listen_to
 from napps.kytos.pathfinder import settings
-
+from napps.kytos.pathfinder.graph import KytosGraph
 
 class Main(KytosNApp):
     """Main class of kytos/pathfinder NApp.
@@ -15,14 +12,8 @@ class Main(KytosNApp):
     """
 
     def setup(self):
-        """Replace the '__init__' method for the KytosNApp subclass.
-
-        The setup method is automatically called by the controller when your
-        application is loaded.
-
-        So, if you have any setup routine, insert it here.
-        """
-        pass
+        """Create a graph to handle the nodes and edges."""
+        self.graph = KytosGraph()
 
     def execute(self):
         """This method is executed right after the setup method execution.
@@ -40,3 +31,21 @@ class Main(KytosNApp):
         If you have some cleanup procedure, insert it here.
         """
         pass
+
+    @rest('<source>/<destination>')
+    def short_path(self, source, destination):
+        """Calculate the best path between the source and destination."""
+        return self.graph.short_path()
+
+    @listen_to('kytos/topology.updated')
+    def update_topology(self, event):
+        """Update the graph when the network topology was updated.
+
+        Clear the current graph and create a new with the most topoly updated.
+        """
+        topology = event.content.get('topology', {})
+        if not topology:
+            return
+        self.graph.clear()
+        self.graph.update_nodes(topology.get('devices',[]))
+        self.graph.update_links(topology.get('links',[]))
