@@ -96,7 +96,8 @@ setup(name='kytos/pathfinder',
       author_email='of-ng-dev@ncc.unesp.br',
       license='MIT',
       install_requires=[
-          'kytos>=2017.2b1'
+          'kytos>=2017.2b1',
+          'networkx'
       ],
       cmdclass={
           'clean': Cleaner,

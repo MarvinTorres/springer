@@ -1,1 +1,2 @@
 kytos>=2017.2b1
+networkx
