@@ -47,3 +47,11 @@ Content
     'devices': [<list_of_devices>]
     'links': [<list_of_links_between_interfaces>]
   }
+
+########
+Rest API
+########
+
+You can find a list of the available endpoints and example input/output in the
+'REST API' tab in this NApp's webpage in the `Kytos NApps Server
+<https://napps.kytos.io/kytos/pathfinder>`_.
