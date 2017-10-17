@@ -1,4 +1,4 @@
-from networkx import Graph
+from networkx import Graph, shortest_path
 
 class KytosGraph:
 
@@ -24,10 +24,10 @@ class KytosGraph:
             return
 
         for link in links:
-            source = link.get('source')
-            destination = link.get('destination')
+            source = link['interface_one']['device_id']
+            destination = link['interface_two']['device_id']
             self.graph.add_edge(source, destination, object=link)
 
-    def short_path(self):
-        """Calculate the short path and return it."""
-        pass
+    def shortest_path(self, source, destination):
+        """Calculate the shortest path and return it."""
+        return shortest_path(self.graph, source, destination)

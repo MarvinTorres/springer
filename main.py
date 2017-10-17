@@ -33,9 +33,9 @@ class Main(KytosNApp):
         pass
 
     @rest('<source>/<destination>')
-    def short_path(self, source, destination):
+    def shortest_path(self, source, destination):
         """Calculate the best path between the source and destination."""
-        return self.graph.short_path()
+        return self.graph.shortest_path()
 
     @listen_to('kytos/topology.updated')
     def update_topology(self, event):
