@@ -4,6 +4,7 @@ from kytos.core import KytosNApp, log, rest
 from kytos.core.helpers import listen_to
 from napps.kytos.pathfinder import settings
 from napps.kytos.pathfinder.graph import KytosGraph
+from napps.kytos.topology.models import Topology
 
 class Main(KytosNApp):
     """Main class of kytos/pathfinder NApp.
@@ -35,17 +36,17 @@ class Main(KytosNApp):
     @rest('<source>/<destination>')
     def shortest_path(self, source, destination):
         """Calculate the best path between the source and destination."""
-        return self.graph.shortest_path()
+        return str(self.graph.shortest_path(source, destination))
 
-    @listen_to('kytos/topology.updated')
+    @listen_to('kytos.topology.updated')
     def update_topology(self, event):
         """Update the graph when the network topology was updated.
 
         Clear the current graph and create a new with the most topoly updated.
         """
-        topology = event.content.get('topology', {})
+        topology = event.content.get('topology', False)
         if not topology:
             return
         self.graph.clear()
-        self.graph.update_nodes(topology.get('devices',[]))
-        self.graph.update_links(topology.get('links',[]))
+        self.graph.update_nodes(topology.devices)
+        self.graph.update_links(topology.links)
