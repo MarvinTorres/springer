@@ -5,14 +5,14 @@ info:
   description: "**Warning**: *This documentation is experimental and will
   change soon.*\n
 
-  Create a graph using the network devices and links to return a best path
-  between two devices."
+  Keeps track of topology changes, and calculates the best path between two
+  points."
 
 paths:
-  /api/kytos/pathfinder/<source>/<destination>:
+  /api/kytos/pathfinder/<source>/<destination>/:
     get:
-      summary: "Return a JSON with the best path between the
-      source and destination given."
+      summary: "Return a list of paths between source and destination, sorted
+      by the criteria."
       parameters:
         - in: path
           name: source
@@ -26,9 +26,7 @@ paths:
           example: '00:00:00:00:00:00:01'
       responses:
         200:
-          description: "Calculate the best path between the source
-          and the destination and return a json with the best
-          path."
+          description: "Best path calculated with success."
           content:
             application/json:
               schema:
