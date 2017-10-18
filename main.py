@@ -2,9 +2,12 @@
 
 from kytos.core import KytosNApp, log, rest
 from kytos.core.helpers import listen_to
-from napps.kytos.pathfinder import settings
+
+# pylint: disable=import-error
 from napps.kytos.pathfinder.graph import KytosGraph
-from napps.kytos.topology.models import Topology
+
+# pylint: enable=import-error
+
 
 class Main(KytosNApp):
     """Main class of kytos/pathfinder NApp.
@@ -17,20 +20,11 @@ class Main(KytosNApp):
         self.graph = KytosGraph()
 
     def execute(self):
-        """This method is executed right after the setup method execution.
-
-        You can also use this method in loop mode if you add to the above setup
-        method a line like the following example:
-
-            self.execute_as_loop(30)  # 30-second interval.
-        """
+        """Do nothing."""
         pass
 
     def shutdown(self):
-        """This method is executed when your napp is unloaded.
-
-        If you have some cleanup procedure, insert it here.
-        """
+        """Shutdown the napp."""
         pass
 
     @rest('<source>/<destination>')
@@ -50,3 +44,4 @@ class Main(KytosNApp):
         self.graph.clear()
         self.graph.update_nodes(topology.devices)
         self.graph.update_links(topology.links)
+        log.debug('Topology updated.')
