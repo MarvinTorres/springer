@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: kytos/pathfinder
-  version: 0.0.1
+  version: v1
   description: "**Warning**: *This documentation is experimental and will
   change soon.*\n
 
