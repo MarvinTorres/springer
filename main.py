@@ -1,4 +1,5 @@
 """Main module of kytos/pathfinder Kytos Network Application."""
+import json
 
 from kytos.core import KytosNApp, log, rest
 from kytos.core.helpers import listen_to
@@ -30,7 +31,11 @@ class Main(KytosNApp):
     @rest('<source>/<destination>')
     def shortest_path(self, source, destination):
         """Calculate the best path between the source and destination."""
-        return str(self.graph.shortest_path(source, destination))
+        paths = []
+        for path in self.graph.shortest_paths(source, destination):
+            paths.append({'hops': path})
+        out = { 'paths': paths }
+        return json.dumps(out)
 
     @listen_to('kytos.topology.updated')
     def update_topology(self, event):
@@ -41,7 +46,5 @@ class Main(KytosNApp):
         if 'topology' not in event.content:
             return
         topology = event.content['topology']
-        self.graph.clear()
-        self.graph.update_nodes(topology.devices)
-        self.graph.update_links(topology.links)
-        log.debug('Topology updated.')
+        self.graph.update_topology(topology)
+        log.debug('Topology graph updated.')

@@ -1,33 +1,29 @@
-from networkx import Graph, shortest_path
+import networkx as nx
 from networkx.exception import NodeNotFound, NetworkXNoPath
 from kytos.core.switch import Switch
 
 class KytosGraph:
 
-    graph = None
-
     def __init__(self):
-        self.graph = Graph()
+        self.graph = nx.Graph()
 
     def clear(self):
         """Remove all nodes and links registered."""
         self.graph.clear()
 
-    def update_nodes(self, nodes=None):
-        """Update all nodes inside the graph."""
-        if nodes is None:
-            return
-        for node in nodes:
-            if isinstance(node, Switch):
-                node_id = node.dpid
-            else:
-                node_id = node.id
-            self.graph.add_node(node_id)
+    def update_topology(self, topology):
+        """Update all nodes and links inside the graph."""
+        self.graph.clear()
+        self.update_nodes(topology.devices)
+        self.update_links(topology.links)
 
-    def update_links(self, links=None):
+    def update_nodes(self, nodes):
+        """Update all nodes inside the graph."""
+        for node in nodes:
+            self.graph.add_node(node.id)
+
+    def update_links(self, links):
         """Update all links inside the graph."""
-        if links is None:
-            return
         for source, destination in links:
 
             node_id = self.node_from_id(source)
@@ -44,12 +40,12 @@ class KytosGraph:
             return ':'.join(identifier.split(':')[:-1])
         return identifier
 
-    def shortest_path(self, source, destination):
-        """Calculate the shortest path and return it."""
-        path = None
+    def shortest_paths(self, source, destination):
+        """Calculate the shortest paths and return them."""
         try:
-            path = shortest_path(self.graph, source, destination)
+            paths = list(nx.shortest_simple_paths(self.graph,
+                                                  source,
+                                                  destination))
         except (NodeNotFound, NetworkXNoPath):
-            path = f"The shortest path between {source} and {destination}"
-            path += " can't be found."
-        return path
+            return []
+        return paths

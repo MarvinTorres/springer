@@ -12,7 +12,7 @@ paths:
   /api/kytos/pathfinder/<source>/<destination>/:
     get:
       summary: "Return a list of paths between source and destination, sorted
-      by the criteria."
+      by the best path. For now, the best path is the minimum number of hops."
       parameters:
         - in: path
           name: source
@@ -26,19 +26,40 @@ paths:
           example: '00:00:00:00:02'
       responses:
         200:
-          description: "Best path calculated with success."
+          description: "Best paths calculated with success."
           content:
             application/json:
               schema:
-                type: array
-                description: "A list of nodes and links that
-                represents the best path between source and
-                destination."
-                items:
-                  type: string
-                  example:
-                  - '00:00:00:00:01'
-                  - '00:00:00:00:00:00:01:1'
-                  - '00:00:00:00:00:00:01'
-                  - '00:00:00:00:00:00:01:2'
-                  - '00:00:00:00:02'
+                type: object
+                properties:
+                  paths:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Path"
+
+components:
+  schemas:
+    Hop:
+      type: string
+      description: Hop identification. Usally is a `switch.id:interface.id`.
+      example: 00:00:00:00:00:00:01:1
+
+    Path:
+      type: object
+      description: Path between two points
+      properties:
+        hops:
+          type: array
+          description: Hops between two points
+          items:
+            $ref: "#/components/schemas/Hop"
+          example:
+            $ref: "#/examples/Hops"
+
+examples:
+  Hops:
+    - 00:00:00:00:00:00:01:1
+    - 00:00:00:00:00:00:02:1
+    - 00:00:00:00:00:00:02
+    - 00:00:00:00:00:00:02:2
+    - 00:00:00:00:00:00:03:1
