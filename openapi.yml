@@ -18,12 +18,12 @@ paths:
           name: source
           description: "The source identifier"
           required: true
-          example: '00:00:00:00:00:00:01'
+          example: '00:00:00:00:01'
         - in: path
           name: destination
           description: "The destination identifier"
           required: true
-          example: '00:00:00:00:00:00:01'
+          example: '00:00:00:00:02'
       responses:
         200:
           description: "Best path calculated with success."
@@ -34,3 +34,11 @@ paths:
                 description: "A list of nodes and links that
                 represents the best path between source and
                 destination."
+                items:
+                  type: string
+                  example:
+                  - '00:00:00:00:01'
+                  - '00:00:00:00:00:00:01:1'
+                  - '00:00:00:00:00:00:01'
+                  - '00:00:00:00:00:00:01:2'
+                  - '00:00:00:00:02'
