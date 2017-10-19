@@ -7,12 +7,16 @@ Overview
     THIS NAPP IS STILL EXPERIMENTAL AND IT'S EVENTS, METHODS AND STRUCTURES MAY
     CHANGE A LOT ON THE NEXT FEW DAYS/WEEKS, USE IT AT YOUR OWN DISCERNEMENT
 
-The NApp **kytos/pathfinder** is a NApp responsible to create a graph using the
-devices and links belong to the network and provide a rest endpoints to
-calculate the best path between two devices. In the graph of the network each
-device represents a node and each link represents a edge between two nodes. In
-the network each device is a host or a switch and each link is a connection
-between two devices.
+The NApp **kytos/pathfinder** is a NApp responsible for creating a graph with
+the latest network topology and providing rest endpoint to calculate the best
+path between two devices. In the network, each device is a host or a switch and
+each link is a connection between two devices. In the graph, each device
+represents a node and each link represents an edge between two nodes.
+
+.. note::
+
+    Very soon, you will be able to calculate the best path based on a custom
+    criteria.
 
 ##########
 Installing
@@ -35,8 +39,11 @@ Listen
 
 kytos/topology.updated
 ======================
-Listen the event reporting that the topology was updated. With the most updated
-topology this NApp will create a graph to be easy to calculate the best paths.
+
+*buffer*: ``app``
+
+Listening on this event will make sure that this NApp has the lateste topology.
+
 
 Content
 -------
@@ -44,8 +51,7 @@ Content
 .. code-block:: python3
 
   {
-    'devices': [<list_of_devices>]
-    'links': [<list_of_links_between_interfaces>]
+    'topology': <Topology object>
   }
 
 ########
