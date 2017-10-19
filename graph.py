@@ -13,9 +13,9 @@ class KytosGraph:
         """Remove all nodes and links registered."""
         self.graph.clear()
 
-    def update_nodes(self, nodes=[]):
+    def update_nodes(self, nodes=None):
         """Update all nodes inside the graph."""
-        if not nodes:
+        if nodes is None:
             return
         for node in nodes:
             if isinstance(node, Switch):
@@ -24,9 +24,9 @@ class KytosGraph:
                 node_id = node.id
             self.graph.add_node(node_id)
 
-    def update_links(self, links=[]):
+    def update_links(self, links=None):
         """Update all links inside the graph."""
-        if not links:
+        if links is None:
             return
         for source, destination in links:
 

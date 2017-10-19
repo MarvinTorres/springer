@@ -38,9 +38,9 @@ class Main(KytosNApp):
 
         Clear the current graph and create a new with the most topoly updated.
         """
-        topology = event.content.get('topology', False)
-        if not topology:
+        if 'topology' not in event.content:
             return
+        topology = event.content['topology']
         self.graph.clear()
         self.graph.update_nodes(topology.devices)
         self.graph.update_links(topology.links)
