@@ -6,6 +6,6 @@
   "version": "0.0.1",
   "napp_dependencies": ["kytos/topology"],
   "license": "MIT",
-  "tags": ["pathfinder", "work-in-progress"],
+  "tags": ["pathfinder", "rest", "work-in-progress"],
   "url": "https://github.com/kytos/pathfinder.git"
 }
