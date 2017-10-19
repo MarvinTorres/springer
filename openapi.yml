@@ -9,7 +9,7 @@ info:
   points."
 
 paths:
-  /api/kytos/pathfinder/<source>/<destination>/:
+  /api/kytos/pathfinder/v1/<source>/<destination>/:
     get:
       summary: "Return a list of paths between source and destination, sorted
       by the best path. For now, the best path is the minimum number of hops."

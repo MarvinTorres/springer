@@ -28,7 +28,7 @@ class Main(KytosNApp):
         """Shutdown the napp."""
         pass
 
-    @rest('<source>/<destination>')
+    @rest('v1/<source>/<destination>')
     def shortest_path(self, source, destination):
         """Calculate the best path between the source and destination."""
         paths = []
