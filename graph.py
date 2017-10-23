@@ -27,9 +27,11 @@ class KytosGraph:
         for source, destination in links:
 
             node_id = self.node_from_id(source)
+            self.graph.add_node(source)
             self.graph.add_edge(node_id, source)
 
             node_id = self.node_from_id(destination)
+            self.graph.add_node(destination)
             self.graph.add_edge(node_id, destination)
 
             self.graph.add_edge(source, destination)
