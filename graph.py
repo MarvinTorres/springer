@@ -22,16 +22,20 @@ class KytosGraph:
         for node in nodes:
             self.graph.add_node(node.id)
 
+            for interface in node.interfaces.values():
+                self.graph.add_node(interface.id)
+                self.graph.add_edge(node.id, interface.id)
+
     def update_links(self, links):
         """Update all links inside the graph."""
         for source, destination in links:
 
             node_id = self.node_from_id(source)
-            self.graph.add_node(source)
+            #self.graph.add_node(source)
             self.graph.add_edge(node_id, source)
 
             node_id = self.node_from_id(destination)
-            self.graph.add_node(destination)
+            #self.graph.add_node(destination)
             self.graph.add_edge(node_id, destination)
 
             self.graph.add_edge(source, destination)
