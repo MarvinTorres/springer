@@ -16,14 +16,14 @@ paths:
       parameters:
         - in: path
           name: source
-          description: "The source identifier"
+          description: "The source identifier. It may be a datapath or an interface. Examples:
+                   '00:00:00:00:00:00:00:01:3', '00:00:00:00:00:00:00:02'."
           required: true
-          example: '00:00:00:00:01'
         - in: path
           name: destination
-          description: "The destination identifier"
+          description: "The destination identifier. It may be a datapath or an interface. Examples:
+                   '00:00:00:00:00:00:00:01:3', '00:00:00:00:00:00:00:02'."
           required: true
-          example: '00:00:00:00:02'
       responses:
         200:
           description: "Best paths calculated with success."
