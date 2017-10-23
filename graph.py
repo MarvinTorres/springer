@@ -29,22 +29,7 @@ class KytosGraph:
     def update_links(self, links):
         """Update all links inside the graph."""
         for source, destination in links:
-
-            node_id = self.node_from_id(source)
-            #self.graph.add_node(source)
-            self.graph.add_edge(node_id, source)
-
-            node_id = self.node_from_id(destination)
-            #self.graph.add_node(destination)
-            self.graph.add_edge(node_id, destination)
-
             self.graph.add_edge(source, destination)
-
-    def node_from_id(self, identifier):
-        """Get a node based on source or destination identifier."""
-        if len(identifier) > 17:
-            return ':'.join(identifier.split(':')[:-1])
-        return identifier
 
     def shortest_paths(self, source, destination):
         """Calculate the shortest paths and return them."""
