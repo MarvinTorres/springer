@@ -39,7 +39,8 @@ class KytosGraph:
             self._remove_switch_hops(circuit)
             if len(circuit['hops']) == 2:
                 self.set_link_properties(circuit)
-        self._set_switch_links_properties(circuits[0]['custom_properties'])
+        if circuits:
+            self._set_switch_links_properties(circuits[0]['custom_properties'])
 
     def set_link_properties(self, circuit):
         """Set properties for a single link in the graph."""
