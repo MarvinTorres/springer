@@ -36,6 +36,39 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/Path"
+  
+  /api/kytos/pathfinder/v1/<source>/<destination>/<parameter>:
+    get:
+      summary: "Return a list of paths between source and destination, sorted
+      by a predefined parameter, defined in the topology. The best path will be
+      the lower sum of this parameter."
+      parameters:
+        - in: path
+          name: source
+          description: "The source identifier. It may be a datapath or an interface. Examples:
+                   '00:00:00:00:00:00:00:01:3', '00:00:00:00:00:00:00:02'."
+          required: true
+        - in: path
+          name: destination
+          description: "The destination identifier. It may be a datapath or an interface. Examples:
+                   '00:00:00:00:00:00:00:01:3', '00:00:00:00:00:00:00:02'."
+          required: true
+        - in: path
+          name: parameter
+          type: string
+          description: "The name of the parameter used to determine the best path."
+      responses:
+        200:
+          description: "Best paths calculated with success."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  paths:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Path"
 
 components:
   schemas:
