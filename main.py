@@ -29,12 +29,13 @@ class Main(KytosNApp):
         pass
 
     @rest('v1/<source>/<destination>')
-    def shortest_path(self, source, destination):
+    @rest('v1/<source>/<destination>/<parameter>')
+    def shortest_path(self, source, destination, parameter=None):
         """Calculate the best path between the source and destination."""
         paths = []
-        for path in self.graph.shortest_paths(source, destination):
+        for path in self.graph.shortest_paths(source, destination, parameter):
             paths.append({'hops': path})
-        out = { 'paths': paths }
+        out = {'paths': paths}
         return json.dumps(out)
 
     @listen_to('kytos.topology.updated')
