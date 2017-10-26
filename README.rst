@@ -13,10 +13,9 @@ path between two devices. In the network, each device is a host or a switch and
 each link is a connection between two devices. In the graph, each device
 represents a node and each link represents an edge between two nodes.
 
-.. note::
-
-    Very soon, you will be able to calculate the best path based on a custom
-    criteria.
+The NApp learns custom properties from the topology, being able to define the
+best paths based on a weighted parmeter. Please see the Rest API documentation
+for details.
 
 ##########
 Installing
