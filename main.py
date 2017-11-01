@@ -1,8 +1,8 @@
 """Main module of kytos/pathfinder Kytos Network Application."""
-import json
 
 from kytos.core import KytosNApp, log, rest
 from kytos.core.helpers import listen_to
+from flask import jsonify
 
 # pylint: disable=import-error
 from napps.kytos.pathfinder.graph import KytosGraph
@@ -35,8 +35,7 @@ class Main(KytosNApp):
         paths = []
         for path in self.graph.shortest_paths(source, destination, parameter):
             paths.append({'hops': path})
-        out = {'paths': paths}
-        return json.dumps(out)
+        return jsonify({'paths': paths})
 
     @listen_to('kytos.topology.updated')
     def update_topology(self, event):
