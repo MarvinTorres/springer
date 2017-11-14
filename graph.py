@@ -22,11 +22,15 @@ class KytosGraph:
     def update_nodes(self, nodes):
         """Update all nodes inside the graph."""
         for node in nodes:
-            self.graph.add_node(node.id)
+            try:
+                self.graph.add_node(node.id)
 
-            for interface in node.interfaces.values():
-                self.graph.add_node(interface.id)
-                self.graph.add_edge(node.id, interface.id)
+                for interface in node.interfaces.values():
+                    self.graph.add_node(interface.id)
+                    self.graph.add_edge(node.id, interface.id)
+
+            except AttributeError:
+                pass
 
     def update_links(self, links):
         """Update all links inside the graph."""
