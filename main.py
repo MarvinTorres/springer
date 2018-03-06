@@ -2,7 +2,7 @@
 
 from kytos.core import KytosNApp, log, rest
 from kytos.core.helpers import listen_to
-from flask import jsonify
+from flask import jsonify, request
 
 # pylint: disable=import-error
 from napps.kytos.pathfinder.graph import KytosGraph
@@ -19,6 +19,7 @@ class Main(KytosNApp):
     def setup(self):
         """Create a graph to handle the nodes and edges."""
         self.graph = KytosGraph()
+        self._topology = None
 
     def execute(self):
         """Do nothing."""
@@ -28,13 +29,68 @@ class Main(KytosNApp):
         """Shutdown the napp."""
         pass
 
-    @rest('v1/<source>/<destination>')
-    @rest('v1/<source>/<destination>/<parameter>')
-    def shortest_path(self, source, destination, parameter=None):
+    def _filter_paths(self, paths, desired, undesired):
+        """Apply filters to the paths list.
+
+        Make sure that each path in the list has all the desired links and none
+        of the undesired ones.
+        """
+        filtered_paths = []
+
+        if desired:
+            for link_id in desired:
+                try:
+                    endpoint_a = self._topology.links[link_id].endpoint_a.id
+                    endpoint_b = self._topology.links[link_id].endpoint_b.id
+                except KeyError:
+                    return []
+
+                for path in paths:
+                    head = path['hops'][:-1]
+                    tail = path['hops'][1:]
+                    if (((endpoint_a, endpoint_b) in zip(head, tail)) or
+                            ((endpoint_b, endpoint_a) in zip(head, tail))):
+                        filtered_paths.append(path)
+        else:
+            filtered_paths = paths
+
+        if undesired:
+            for link_id in undesired:
+                try:
+                    endpoint_a = self._topology.links[link_id].endpoint_a.id
+                    endpoint_b = self._topology.links[link_id].endpoint_b.id
+                except KeyError:
+                    print("N ACHOU")
+                    continue
+
+                for path in paths:
+                    head = path['hops'][:-1]
+                    tail = path['hops'][1:]
+                    if (((endpoint_a, endpoint_b) in zip(head, tail)) or
+                            ((endpoint_b, endpoint_a) in zip(head, tail))):
+
+                        filtered_paths.remove(path)
+
+        return filtered_paths
+
+    @rest('v2/', methods=['POST'])
+    def shortest_path(self):
         """Calculate the best path between the source and destination."""
+        data = request.get_json()
+
+        desired = data['desired_links'] if 'desired_links' in data else None
+        undesired = (data['undesired_links'] if 'undesired_links' in data else
+                     None)
+        parameter = data['parameter'] if 'parameter' in data else None
+
         paths = []
-        for path in self.graph.shortest_paths(source, destination, parameter):
+        for path in self.graph.shortest_paths(data['source'],
+                                              data['destination'],
+                                              parameter):
             paths.append({'hops': path})
+
+        paths = self._filter_paths(paths, desired, undesired)
+
         return jsonify({'paths': paths})
 
     @listen_to('kytos.topology.updated')
@@ -46,5 +102,6 @@ class Main(KytosNApp):
         if 'topology' not in event.content:
             return
         topology = event.content['topology']
+        self._topology = topology
         self.graph.update_topology(topology)
         log.debug('Topology graph updated.')
