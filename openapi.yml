@@ -13,7 +13,6 @@ paths:
     post:
       summary: "Return a list of best paths between source and destination, in order."
       requestBody:
-        description:
         required: true
         content:
           application/json:
@@ -22,15 +21,15 @@ paths:
               properties:
                 source:
                   type: string
-                  description: "The source identifier. It may be a datapath or an interface."
+                  description:
                   required: true
-                  example: '00:00:00:00:00:00:00:01:3'
+                  example: '00:00:00:00:00:00:01:1'
                 destination:
                   type: string
                   description: "The destination identifier. It may be a datapath or an interface."
                   required: true
-                  example: '00:00:00:00:00:00:00:02'
-                desired_link:
+                  example: '00:00:00:00:00:00:02:2'
+                desired_links:
                   type: array
                   required: false
                   description: "List of desired links inside all paths found. All paths will have the desired links."
@@ -38,20 +37,19 @@ paths:
                     - "f13e8308-ecb2-49be-b507-3823af9cc409"
                     - "ee8d9017-1efd-49ac-9149-4cbeea86f751"
                     - "a3723e31-bdd3-4102-8b1a-c9fbde6d301a"
-                desired_links:
+                undesired_links:
                   type: array
                   required: false
-                  description: "List of undesired links in all paths found.When a undesired link is found the endpoint will ignore remove that."
+                  description: "List of undesired links in all paths found. When an undesired link is found the endpoint will ignore remove that."
                   example:
                     - '2bd01b0d-c875-4263-ad38-fec0b2999582'
                     - 'c41f6249-3ea6-4aba-a083-08049face1e2'
                     - '7e8b6bd2-701e-4465-894a-40623e727047'
-                parameters:
+                parameter:
                   type: array
                   required: false
                   description:  "Optional parameters sent to pathfinder"
-                  example:
-                    - {"custom_value": "2"}
+                  example: "custom_weight"
       responses:
         200:
           description: "Best paths calculated with success."
