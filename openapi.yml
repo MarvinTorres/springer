@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: kytos/pathfinder
-  version: v1
+  version: v2
   description: "**Warning**: *This documentation is experimental and will
   change soon.*\n
 
@@ -9,26 +9,47 @@ info:
   points."
 
 paths:
-  /api/kytos/pathfinder/v1/<source>/<destination>/<parameter>:
-    get:
+  /api/kytos/pathfinder/v2:
+    post:
       summary: "Return a list of best paths between source and destination, in order."
-      parameters:
-        - in: path
-          name: source
-          description: "The source identifier. It may be a datapath or an interface. Examples:
-                   '00:00:00:00:00:00:00:01:3', '00:00:00:00:00:00:00:02'."
-          required: true
-        - in: path
-          name: destination
-          description: "The destination identifier. It may be a datapath or an interface. Examples:
-                   '00:00:00:00:00:00:00:01:3', '00:00:00:00:00:00:00:02'."
-          required: true
-        - in: path
-          name: parameter
-          type: string
-          description: "The name of the parameter used to determine the best path.
-          This parameter must be a custom property defined in the topology. Omitting
-          this field will use the minimum number of hops as a parameter."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                source:
+                  type: string
+                  description:
+                  required: true
+                  example: '00:00:00:00:00:00:01:1'
+                destination:
+                  type: string
+                  description: "The destination identifier. It may be a datapath or an interface."
+                  required: true
+                  example: '00:00:00:00:00:00:02:2'
+                desired_links:
+                  type: array
+                  required: false
+                  description: "List of desired links inside all paths found. All paths will have the desired links."
+                  example:
+                    - "f13e8308-ecb2-49be-b507-3823af9cc409"
+                    - "ee8d9017-1efd-49ac-9149-4cbeea86f751"
+                    - "a3723e31-bdd3-4102-8b1a-c9fbde6d301a"
+                undesired_links:
+                  type: array
+                  required: false
+                  description: "List of undesired links in all paths found. When an undesired link is found the endpoint will ignore remove that."
+                  example:
+                    - '2bd01b0d-c875-4263-ad38-fec0b2999582'
+                    - 'c41f6249-3ea6-4aba-a083-08049face1e2'
+                    - '7e8b6bd2-701e-4465-894a-40623e727047'
+                parameter:
+                  type: array
+                  required: false
+                  description:  "Optional parameters sent to pathfinder"
+                  example: "custom_weight"
       responses:
         200:
           description: "Best paths calculated with success."
