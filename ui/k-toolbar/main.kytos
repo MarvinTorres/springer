@@ -1,0 +1,113 @@
+<template>
+  <div class="k-menu-item" icon="compass" tooltip="Napp Pathfinder">
+    <k-accordion>
+      <k-accordion-item title="Best Path">
+        <k-dropdown icon="circle-o" title="Source:" :options="get_interfaces"
+          :value.sync="source"></k-dropdown>
+        <k-dropdown icon="circle-o" title="Destination:" :options="get_interfaces"
+          :value.sync ="destination"></k-dropdown>
+       <k-select icon="link" title="Desired links:" :options="get_links"
+        :value.sync ="desired_links"></k-select>
+       <k-select icon="link" title="Undesired links:" :options="get_links"
+        :value.sync ="undesired_links"></k-select>
+        <k-button icon="search" title="Search" :on_click="get_paths">
+        </k-button>
+
+      </k-accordion-item>
+    <k-accordion>
+  </div>
+</template>
+
+<script>
+module.exports = {
+  methods: {
+    get_paths (){
+      var self = this
+      $.ajax({
+        async: true,
+        dataType: "json",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({"source": self.source,
+               "destination": self.destination,
+               "desired_links": self.desired_links,
+               "undesired_links": self.undesired_links
+               }),
+
+        url: this.$kytos_server_api + "kytos/pathfinder/v2",
+        success: function(data) {
+            if (data['paths'][0] !== undefined){
+                self.paths = data['paths'][0].hops;
+            } else {
+                self.paths = []
+            }
+          self.show();
+        }
+      });
+
+    },
+    get_topology(){
+      var self = this
+      $.ajax({
+        async: true,
+        dataType: "json",
+        url: this.$kytos_server_api + "kytos/topology/v3",
+
+        success: function(data) {
+          self.switches = data['topology']['switches']
+          self.links = data['topology']['links']
+        }
+      });
+
+    },
+    show() {
+       var content = {
+                      "component": 'kytos-pathfinder-k-info-panel-best_path',
+                      "content": this.paths,
+                      "icon": "compass",
+                      "title": "Best Path",
+                      "subtitle": "by kytos/pathfinder"
+                     }
+       this.$kytos.$emit("showInfoPanel", content)
+
+   }
+  },
+
+  computed: {
+    get_interfaces(){
+      var interfaces = []
+      $.each(this.switches, function(key, value){
+        $.each(value.interfaces, function(key, value){
+          interfaces.push({value: key, description: key})
+        });
+      });
+
+      return interfaces;
+    },
+    get_links(){
+      var links = []
+      $.each(this.links, function(key, value){
+        links.push({value:value.id, description:value.id});
+      });
+
+      return links;
+    }
+  },
+
+  created(){
+    this.get_topology();
+  },
+
+  data: function(){
+    return {
+      paths: [],
+      switches: [],
+      links: [],
+      source: "",
+      destination: "",
+      desired_links: [],
+      undesired_links: []
+    }
+  }
+}
+</script>
