@@ -77,20 +77,22 @@ class Main(KytosNApp):
     def shortest_path(self):
         """Calculate the best path between the source and destination."""
         data = request.get_json()
-
-        desired = data['desired_links'] if 'desired_links' in data else None
-        undesired = (data['undesired_links'] if 'undesired_links' in data else
+        desired = data['desired_links'] if data and 'desired_links' in data else None
+        undesired = (data['undesired_links'] if data and 'undesired_links' in data else
                      None)
-        parameter = data['parameter'] if 'parameter' in data else None
+        parameter = data['parameter'] if data and 'parameter' in data else None
 
         paths = []
+        print (data)
         for path in self.graph.shortest_paths(data['source'],
                                               data['destination'],
                                               parameter):
+            print (paths)
             paths.append({'hops': path})
 
+        print (paths)
         paths = self._filter_paths(paths, desired, undesired)
-
+        print (paths)
         return jsonify({'paths': paths})
 
     @listen_to('kytos.topology.updated')
