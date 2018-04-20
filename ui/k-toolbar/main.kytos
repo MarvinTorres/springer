@@ -1,5 +1,5 @@
 <template>
-  <div class="k-menu-item" icon="compass" tooltip="Napp Pathfinder">
+  <k-toolbar-item icon="compass" tooltip="Napp Pathfinder">
     <k-accordion>
       <k-accordion-item title="Best Path">
         <k-dropdown icon="circle-o" title="Source:" :options="get_interfaces"
@@ -15,7 +15,7 @@
 
       </k-accordion-item>
     <k-accordion>
-  </div>
+  </k-toolbar-item>
 </template>
 
 <script>
