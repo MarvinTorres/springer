@@ -23,6 +23,23 @@ Fixed
 Security
 ========
 
+[2.1.1] - 2018-06-15
+********************
+Fixed
+=====
+- Fixed pathfinder component to use `k-toolbar-item`.
+
+[2.1.0] - 2018-04-20
+********************
+Added
+=====
+- Implements Pathfinder ui.
+
+Fixed
+=====
+- Fix optional parameters (api/kytos/pathfinder/v2):
+  - parameter, undesired_links and desired_links must be optional.
+
 [2.0.0] - 2018-03-09
 ********************
 Added
