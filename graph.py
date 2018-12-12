@@ -1,6 +1,8 @@
 import networkx as nx
 from networkx.exception import NodeNotFound, NetworkXNoPath
 
+from kytos.core import log
+
 
 class KytosGraph:
 
@@ -34,10 +36,11 @@ class KytosGraph:
         """Update all links inside the graph."""
         keys = []
         for link in links.values():
-            self.graph.add_edge(link.endpoint_a.id, link.endpoint_b.id)
-            for key, value in link.metadata.items():
-                keys.extend(key)
-                self.graph[link.endpoint_a.id][link.endpoint_b.id][key] = value
+            if link.is_active():
+                self.graph.add_edge(link.endpoint_a.id, link.endpoint_b.id)
+                for key, value in link.metadata.items():
+                    keys.extend(key)
+                    self.graph[link.endpoint_a.id][link.endpoint_b.id][key] = value
 
         self._set_default_metadata(keys)
 
