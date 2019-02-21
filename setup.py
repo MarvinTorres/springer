@@ -72,9 +72,9 @@ class Linter(SimpleCommand):
         try:
             check_call('yala setup.py tests main.py', shell=True)
             print('No linter error found.')
-        except Exception as CalledProcessError:
+        except RuntimeError as error:
             print('Linter check failed. Fix the error(s) above and try again.')
-            print(CalledProcessError)
+            print(error)
             exit(-1)
 
 
