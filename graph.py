@@ -1,12 +1,14 @@
-import networkx as nx
-from networkx.exception import NodeNotFound, NetworkXNoPath
+"""Module Graph of kytos/pathfinder Kytos Network Application."""
 
-from kytos.core import log
+import networkx as nx
+from networkx.exception import NetworkXNoPath, NodeNotFound
 
 
 class KytosGraph:
+    """Class responsible for the graph generation."""
 
     def __init__(self):
+        """Constructor."""
         self.graph = nx.Graph()
 
     def clear(self):
