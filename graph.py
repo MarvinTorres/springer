@@ -8,7 +8,6 @@ class KytosGraph:
     """Class responsible for the graph generation."""
 
     def __init__(self):
-        """Constructor."""
         self.graph = nx.Graph()
 
     def clear(self):
