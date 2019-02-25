@@ -29,15 +29,12 @@ class SimpleCommand(Command):
 
         Use *call* instead of *check_call* to ignore failures.
         """
-        pass
 
     def initialize_options(self):
         """Set default values for options."""
-        pass
 
     def finalize_options(self):
         """Post-process options."""
-        pass
 
 
 class Cleaner(SimpleCommand):
@@ -70,9 +67,15 @@ class Linter(SimpleCommand):
     description = 'lint Python source code'
 
     def run(self):
-        """Run pylama."""
-        print('Pylama is running. It may take several seconds...')
-        check_call('pylama setup.py tests main.py', shell=True)
+        """Run Yala."""
+        print('Yala is running. It may take several seconds...')
+        try:
+            check_call('yala setup.py tests main.py', shell=True)
+            print('No linter error found.')
+        except RuntimeError as error:
+            print('Linter check failed. Fix the error(s) above and try again.')
+            print(error)
+            exit(-1)
 
 
 class CITest(SimpleCommand):

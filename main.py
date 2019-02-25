@@ -1,8 +1,8 @@
 """Main module of kytos/pathfinder Kytos Network Application."""
 
+from flask import jsonify, request
 from kytos.core import KytosNApp, log, rest
 from kytos.core.helpers import listen_to
-from flask import jsonify, request
 
 # pylint: disable=import-error
 from napps.kytos.pathfinder.graph import KytosGraph
@@ -16,18 +16,18 @@ class Main(KytosNApp):
     This class is the entry point for this napp.
     """
 
+    def __init__(self):
+        self._topology = None
+
     def setup(self):
         """Create a graph to handle the nodes and edges."""
         self.graph = KytosGraph()
-        self._topology = None
 
     def execute(self):
         """Do nothing."""
-        pass
 
     def shutdown(self):
         """Shutdown the napp."""
-        pass
 
     def _filter_paths(self, paths, desired, undesired):
         """Apply filters to the paths list.
@@ -60,7 +60,6 @@ class Main(KytosNApp):
                     endpoint_a = self._topology.links[link_id].endpoint_a.id
                     endpoint_b = self._topology.links[link_id].endpoint_b.id
                 except KeyError:
-                    print("N ACHOU")
                     continue
 
                 for path in paths:
