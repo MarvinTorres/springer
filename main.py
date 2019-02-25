@@ -17,13 +17,11 @@ class Main(KytosNApp):
     """
 
     def __init__(self):
-        """Constructor."""
         self._topology = None
 
     def setup(self):
         """Create a graph to handle the nodes and edges."""
         self.graph = KytosGraph()
-        self._topology = None
 
     def execute(self):
         """Do nothing."""
@@ -62,7 +60,6 @@ class Main(KytosNApp):
                     endpoint_a = self._topology.links[link_id].endpoint_a.id
                     endpoint_b = self._topology.links[link_id].endpoint_b.id
                 except KeyError:
-                    print("N ACHOU")
                     continue
 
                 for path in paths:
