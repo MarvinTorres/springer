@@ -16,12 +16,10 @@ class Main(KytosNApp):
     This class is the entry point for this napp.
     """
 
-    def __init__(self):
-        self._topology = None
-
     def setup(self):
         """Create a graph to handle the nodes and edges."""
         self.graph = KytosGraph()
+        self._topology = None
 
     def execute(self):
         """Do nothing."""

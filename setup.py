@@ -36,7 +36,7 @@ INSTALLED_PATH = VAR_PATH / 'napps' / '.installed'
 CURRENT_DIR = Path('.').resolve()
 
 # NApps enabled by default
-CORE_NAPPS = ['of_core']
+CORE_NAPPS = []
 
 
 # def read_version_from_json():
@@ -100,7 +100,7 @@ class Linter(SimpleCommand):
         """Run Yala."""
         print('Yala is running. It may take several seconds...')
         try:
-            check_call('yala setup.py tests main.py', shell=True)
+            check_call('yala *.py tests *.py', shell=True)
             print('No linter error found.')
         except RuntimeError as error:
             print('Linter check failed. Fix the error(s) above and try again.')

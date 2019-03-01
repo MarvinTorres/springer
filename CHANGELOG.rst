@@ -20,6 +20,9 @@ Removed
 Fixed
 =====
 
+- Improve code organization and fix some linter issues.
+- Allow to run linter and tests on scrutinizer.
+
 Security
 ========
 
