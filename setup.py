@@ -25,7 +25,7 @@ else:
     BASE_ENV = Path('/')
 
 NAPP_NAME = 'pathfinder'
-NAPP_VERSION = '2.2.0'
+NAPP_VERSION = '2.2.1'
 
 # Kytos var folder
 VAR_PATH = BASE_ENV / 'var' / 'lib' / 'kytos'

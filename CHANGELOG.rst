@@ -5,26 +5,16 @@ All notable changes to the pathfinder NApp will be documented in this file.
 
 [UNRELEASED] - Under development
 ********************************
-Added
-=====
 
+[2.2.1] - 2019-03-15
+********************
 Changed
 =======
-
-Deprecated
-==========
-
-Removed
-=======
+ - Continuous integration enabled at scrutinizer.
 
 Fixed
 =====
-
 - Improve code organization and fix some linter issues.
-- Allow to run linter and tests on scrutinizer.
-
-Security
-========
 
 [2.2.0] - 2018-12-14
 ********************
