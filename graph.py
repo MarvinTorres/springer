@@ -41,7 +41,9 @@ class KytosGraph:
                 self.graph.add_edge(link.endpoint_a.id, link.endpoint_b.id)
                 for key, value in link.metadata.items():
                     keys.extend(key)
-                    self.graph[link.endpoint_a.id][link.endpoint_b.id][key] = value
+                    endpoint_a = link.endpoint_a.id
+                    endpoint_b = link.endpoint_b.id
+                    self.graph[endpoint_a][endpoint_b][key] = value
 
         self._set_default_metadata(keys)
 
