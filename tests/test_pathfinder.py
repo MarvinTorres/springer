@@ -4,17 +4,18 @@ from unittest.mock import Mock
 
 from flask import request
 
-from graph import KytosGraph
+# module under test
 from main import Main
 
-# from napps.kytos.topology import settings
+# Modules from other NApps
 from napps.kytos.topology.models import Topology
 
 
-# Need to figure out an alternative
+# Core modules to import
 from kytos.core.switch import Switch
 from kytos.core.interface import Interface
 from kytos.core.link import Link
+from kytos.core import KytosEvent
 
 class TestPathfinder(TestCase):
 
@@ -23,9 +24,10 @@ class TestPathfinder(TestCase):
         result = None
         main = Main()
         main.setup()
+        main.update_topology()
 
         with test_request_context():
-            result = main.get_path()
+            result = main.shortest_path()
 
     @staticmethod
     def generateTopology():
