@@ -26,7 +26,13 @@ class TestKytosGraph(TestCase):
     def test_setup(self):
         """Created to debug the test setup"""
         self.setup()
-        print(self.graph.graph)
+        print("Nodes in graph")
+        for node in self.graph.graph.nodes:
+            print(node)
+        print("Edges in graph")
+        for edge in self.graph.graph.edges:
+            print(edge)
+            
 
 
 
@@ -47,9 +53,9 @@ class TestKytosGraph(TestCase):
 
         links = {}
 
-        links["S1-L1<->S2-L1"] = Link(interfaces["S1-L1"], interfaces["S2-L1"])
-        links["S3-L1<->S2-L2"] = Link(interfaces["S3-L1"], interfaces["S2-L2"])
-        links["S1-L2<->S3-L2"] = Link(interfaces["S1-L2"], interfaces["S3-L2"])
+        links["S1:1<->S2:1"] = Link(interfaces["S1:1"], interfaces["S2:1"])
+        links["S3:1<->S2:2"] = Link(interfaces["S3:1"], interfaces["S2:2"])
+        links["S1:2<->S3:2"] = Link(interfaces["S1:2"], interfaces["S3:2"])
 
         return (switches,links)
 
@@ -61,7 +67,7 @@ class TestKytosGraph(TestCase):
     @staticmethod
     def addInterfaces(count,switch,interfaces):
         for x in range(1,count + 1):
-            str1 = "{}-L{}".format(switch.dpid,x)
+            str1 = "{}:{}".format(switch.dpid,x)
             print("Creating Interface: ", str1)
             iFace = Interface(str1,x,switch)
             interfaces[str1] = iFace
