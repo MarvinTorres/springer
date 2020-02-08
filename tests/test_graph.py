@@ -24,7 +24,7 @@ class TestKytosGraph(TestCase):
         self.graph.update_links(links)
 
     def test_setup(self):
-        """Created to debug the test setup"""
+        """Provides information on default test setup"""
         self.setup()
         print("Nodes in graph")
         for node in self.graph.graph.nodes:
@@ -32,7 +32,18 @@ class TestKytosGraph(TestCase):
         print("Edges in graph")
         for edge in self.graph.graph.edges:
             print(edge)
-            
+    
+    def test_path1(self):
+        """Tests a simple, definetly possible path"""
+        self.setup()
+        result = self.graph.shortest_paths("S1","S2")
+        self.assertNotEquals(result, [])
+
+    def test_path2(self):
+        """Tests a simple, impossible path"""
+        self.setup()
+        result = self.graph.shortest_paths("S1","S4")
+        self.assertEquals(result, [])
 
 
 
@@ -50,6 +61,9 @@ class TestKytosGraph(TestCase):
 
         TestKytosGraph.createSwitch("S3",switches)
         TestKytosGraph.addInterfaces(2, switches["S3"], interfaces)
+
+        TestKytosGraph.createSwitch("S4",switches)
+        TestKytosGraph.addInterfaces(2, switches["S4"], interfaces)
 
         links = {}
 
