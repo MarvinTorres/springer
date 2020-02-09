@@ -23,6 +23,12 @@ class TestKytosGraph(TestCase):
         self.graph.update_nodes(switches)
         self.graph.update_links(links)
 
+    def get_path(self, source, destination):
+        print(f"Attempting path between {source} and {destination}.")
+        result = self.graph.shortest_paths(source,destination)
+        print(f"Path result: {result}")
+        return result
+
     def test_setup(self):
         """Provides information on default test setup"""
         self.setup()
@@ -36,14 +42,14 @@ class TestKytosGraph(TestCase):
     def test_path1(self):
         """Tests a simple, definetly possible path"""
         self.setup()
-        result = self.graph.shortest_paths("S1","S2")
-        self.assertNotEquals(result, [])
+        result = self.get_path("S1","S2")
+        self.assertNotEqual(result, [])
 
     def test_path2(self):
         """Tests a simple, impossible path"""
         self.setup()
-        result = self.graph.shortest_paths("S1","S4")
-        self.assertEquals(result, [])
+        result = self.get_path("S1","S4")
+        self.assertEqual(result, [])
 
 
 
