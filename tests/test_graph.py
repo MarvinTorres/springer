@@ -51,7 +51,17 @@ class TestKytosGraph(TestCase):
         result = self.get_path("S1","S4")
         self.assertEqual(result, [])
 
+    def test_path3(self):
+        """Tests a path to self"""
+        self.setup()
+        result = self.get_path("S4","S4")
+        self.assertNotEqual(result, [])
 
+    def test_path4(self):
+        """Tests a path to self again"""
+        self.setup()
+        result = self.get_path("S1","S1")
+        self.assertNotEqual(result, [])
 
     @staticmethod
     def generateTopology():

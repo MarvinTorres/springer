@@ -74,3 +74,22 @@ class KytosGraph:
         except (NodeNotFound, NetworkXNoPath):
             return []
         return paths
+
+    def constrained_shortest_paths(self, source, destination, flexible,  **metrics):
+        paths = []
+        edges = self._filter_edges(**metrics)
+        try:
+            paths = list(nx.shortest_simple_paths(self.graph.edge_subgraph(edges),
+                                                  source,
+                                                  destination))
+        except(NodeNotFound, NetworkXNoPath):
+            return []
+        return paths
+
+    def _filter_edges(self, **metrics):
+        edges = self.graph.edges
+        for metric, value in metrics:
+            edges = self._filter_fun.get(metric, (lambda a, b: b) )(value, edges)
+        return edges
+    
+    
