@@ -9,6 +9,21 @@ class KytosGraph:
 
     def __init__(self):
         self.graph = nx.Graph()
+        self._filter_fun_dict = {}
+        def filterLEQ(metric):# Lower values are better
+            return lambda x: (lambda y: y[2].get(metric,x) <= x)
+        def filterGEQ(metric):# Higher values  are better
+            return lambda x: (lambda y: y[2].get(metric,x) >= x)
+        def filterEEQ(metric):# Equivalence
+            return lambda x: (lambda y: y[2].get(metric,x) == x)
+
+
+        self._filter_fun_dict["ownership"] = filterEEQ("ownership")
+        self._filter_fun_dict["bandwidth"] = filterGEQ("bandwidth")
+        self._filter_fun_dict["priority"] = filterGEQ("priority")
+        self._filter_fun_dict["utilization"] = filterLEQ("utilization")
+        self._filter_fun_dict["delay"] = filterLEQ("delay")
+        
 
     def clear(self):
         """Remove all nodes and links registered."""
@@ -75,7 +90,7 @@ class KytosGraph:
             return []
         return paths
 
-    def constrained_shortest_paths(self, source, destination, flexible,  **metrics):
+    def constrained_shortest_paths(self, source, destination, flexible=False,  **metrics):
         paths = []
         edges = self._filter_edges(**metrics)
         try:
@@ -88,8 +103,11 @@ class KytosGraph:
 
     def _filter_edges(self, **metrics):
         edges = self.graph.edges
-        for metric, value in metrics:
-            edges = self._filter_fun.get(metric, (lambda a, b: b) )(value, edges)
+        for metric, value in metrics.items():
+            fun0 = self._filter_fun_dict.get(metric, None)
+            if fun0 != None:
+                fun1 = fun0(value)
+                edges.data() = filter(fun1,edges)
         return edges
     
     

@@ -29,6 +29,14 @@ class TestKytosGraph(TestCase):
         print(f"Path result: {result}")
         return result
 
+    def get_path_constrained(self, source, destination, flexible = False, **metrics):
+        print(f"Attempting path between {source} and {destination}.")
+        print(f"Filtering with the following metrics: {metrics}")
+        print(f"Flexible is set to {flexible}")
+        result = self.graph.constrained_shortest_paths(source,destination, flexible, **metrics)
+        print(f"Path result: {result}")
+        return result
+
     def test_setup(self):
         """Provides information on default test setup"""
         self.setup()
@@ -45,10 +53,22 @@ class TestKytosGraph(TestCase):
         result = self.get_path("S1","S2")
         self.assertNotEqual(result, [])
 
+    def test_constrained_path1(self):
+        """Tests a simple, definetly possible path"""
+        self.setup()
+        result = self.get_path_constrained("S1","S2")
+        self.assertNotEqual(result, [])
+
     def test_path2(self):
         """Tests a simple, impossible path"""
         self.setup()
         result = self.get_path("S1","S4")
+        self.assertEqual(result, [])
+
+    def test_constrained_path2(self):
+        """Tests a simple, impossible path"""
+        self.setup()
+        result = self.get_path_constrained("S1","S4")
         self.assertEqual(result, [])
 
     def test_path3(self):
@@ -57,10 +77,22 @@ class TestKytosGraph(TestCase):
         result = self.get_path("S4","S4")
         self.assertNotEqual(result, [])
 
+    def test_constrained_path3(self):
+        """Tests a path to self"""
+        self.setup()
+        result = self.get_path_constrained("S4","S4")
+        self.assertNotEqual(result, [])
+
     def test_path4(self):
         """Tests a path to self again"""
         self.setup()
         result = self.get_path("S1","S1")
+        self.assertNotEqual(result, [])
+
+    def test_constrained_path4(self):
+        """Tests a path to self again"""
+        self.setup()
+        result = self.get_path_constrained("S1","S1")
         self.assertNotEqual(result, [])
 
     @staticmethod
