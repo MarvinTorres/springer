@@ -89,12 +89,13 @@ class KytosGraph:
         return paths
 
     def _filter_edges(self, **metrics):
-        edges = self.graph.edges
+        edges = self.graph.edges(data=True)
         for metric, value in metrics.items():
             fun0 = self._filter_fun_dict.get(metric, None)
             if fun0 != None:
                 fun1 = fun0(value)
-                edges.data() = filter(fun1,edges)
+                edges = filter(fun1,edges)
+        edges = ((u,v) for u,v,d in edges)
         return edges
     
     

@@ -44,7 +44,7 @@ class TestKytosGraph(TestCase):
         for node in self.graph.graph.nodes:
             print(node)
         print("Edges in graph")
-        for edge in self.graph.graph.edges:
+        for edge in self.graph.graph.edges(data=True):
             print(edge)
     
     def test_path1(self):
@@ -95,6 +95,24 @@ class TestKytosGraph(TestCase):
         result = self.get_path_constrained("S1","S1")
         self.assertNotEqual(result, [])
 
+    def test_constrained_path5(self):
+        """Tests constrained path"""
+        self.setup()
+        result = self.get_path_constrained("S1","S3", False, bandwidth = 50)
+        self.assertNotIn(['S1', 'S1:2', 'S3:2', 'S3'], result)
+
+    def test_constrained_path6(self):
+        """Tests constrained path"""
+        self.setup()
+        result = self.get_path_constrained("S1","S2", False, ownership = "red")
+        self.assertNotIn(['S1', 'S1:2', 'S3:2', 'S3', 'S3:1', 'S2:2', 'S2'],result)
+
+    def test_constrained_path7(self):
+        """Tests constrained path"""
+        self.setup()
+        result = self.get_path_constrained("S1","S2", False, ownership = "blue")
+        self.assertNotIn(['S1', 'S1:1', 'S2:1', 'S2'],result)
+
     @staticmethod
     def generateTopology():
         """Generates a predetermined topology"""
@@ -116,8 +134,16 @@ class TestKytosGraph(TestCase):
         links = {}
 
         links["S1:1<->S2:1"] = Link(interfaces["S1:1"], interfaces["S2:1"])
+        links["S1:1<->S2:1"].add_metadata("bandwidth",50)
+        links["S1:1<->S2:1"].add_metadata("ownership","red")
+
         links["S3:1<->S2:2"] = Link(interfaces["S3:1"], interfaces["S2:2"])
+        links["S3:1<->S2:2"].add_metadata("bandwidth",51)
+        links["S3:1<->S2:2"].add_metadata("ownership","blue")
+
         links["S1:2<->S3:2"] = Link(interfaces["S1:2"], interfaces["S3:2"])
+        links["S1:2<->S3:2"].add_metadata("bandwidth",49)
+        links["S1:2<->S3:2"].add_metadata("ownership","blue")
 
         return (switches,links)
 
