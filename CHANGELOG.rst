@@ -5,6 +5,9 @@ All notable changes to the pathfinder NApp will be documented in this file.
 
 [UNRELEASED] - Under development
 ********************************
+Added
+=====
+- Added log error message when networkx package isn't installed.
 
 [2.2.1] - 2019-03-15
 ********************
