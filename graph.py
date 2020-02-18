@@ -84,8 +84,12 @@ class KytosGraph:
             paths = list(nx.shortest_simple_paths(self.graph.edge_subgraph(edges),
                                                   source,
                                                   destination))
-        except(NodeNotFound, NetworkXNoPath):
+        except NetworkXNoPath:
             return []
+        except NodeNotFound:
+            if source == destination:
+                if source in self.graph.nodes:
+                    return [[source]]
         return paths
 
     def _filter_edges(self, **metrics):

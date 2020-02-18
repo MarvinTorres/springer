@@ -113,6 +113,13 @@ class TestKytosGraph(TestCase):
         result = self.get_path_constrained("S1","S2", False, ownership = "blue")
         self.assertNotIn(['S1', 'S1:1', 'S2:1', 'S2'],result)
 
+    def test_constrained_path8(self):
+        """Tests constrained path, to self AGAIN"""
+        self.setup()
+        result = self.get_path_constrained("S5","S5", False, ownership = "blue")
+        self.assertNotEqual([],result)
+        self.assertIn(['S5'],result)
+
     @staticmethod
     def generateTopology():
         """Generates a predetermined topology"""
@@ -130,6 +137,8 @@ class TestKytosGraph(TestCase):
 
         TestKytosGraph.createSwitch("S4",switches)
         TestKytosGraph.addInterfaces(2, switches["S4"], interfaces)
+
+        TestKytosGraph.createSwitch("S5",switches)
 
         links = {}
 
