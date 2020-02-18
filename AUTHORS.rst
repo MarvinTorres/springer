@@ -15,3 +15,4 @@ Contributors
 - Carlos Magno Barbosa <cmagnobarbosa AT gmail DOT com>
 - Raphael Cóbe <rmcobe AT ncc DOT unesp DOT br>
 - Daniela Garcia Toranzo <dgarc330 AT fiu DOT edu>
+- Vinicius Arcanjo <viniarck AT gmail DOT com>
