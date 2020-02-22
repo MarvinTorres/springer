@@ -33,7 +33,10 @@ class TestKytosGraph(TestCase):
         print(f"Attempting path between {source} and {destination}.")
         print(f"Filtering with the following metrics: {metrics}")
         print(f"Flexible is set to {flexible}")
-        result = self.graph.constrained_shortest_paths(source,destination, flexible, **metrics)
+        if flexible:
+            result = self.graph.constrained_flexible(source,destination,**metrics)
+        else:
+            result = self.graph.constrained_shortest_paths(source,destination, **metrics)
         print(f"Path result: {result}")
         return result
 
@@ -119,6 +122,11 @@ class TestKytosGraph(TestCase):
         result = self.get_path_constrained("S5","S5", False, ownership = "blue")
         self.assertNotEqual([],result)
         self.assertIn(['S5'],result)
+
+    def test_constrained_path9(self):
+        """Tests constrained path"""
+        self.setup()
+        result = self.get_path_constrained("S1","S2", True, ownership = "blue")
 
     @staticmethod
     def generateTopology():

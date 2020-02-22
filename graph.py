@@ -3,6 +3,7 @@
 import networkx as nx
 from networkx.exception import NetworkXNoPath, NodeNotFound
 
+from itertools import combinations
 
 class KytosGraph:
     """Class responsible for the graph generation."""
@@ -77,7 +78,7 @@ class KytosGraph:
             return []
         return paths
 
-    def constrained_shortest_paths(self, source, destination, flexible=False,  **metrics):
+    def constrained_shortest_paths(self, source, destination,  **metrics):
         paths = []
         edges = self._filter_edges(**metrics)
         try:
@@ -101,5 +102,22 @@ class KytosGraph:
                 edges = filter(fun1,edges)
         edges = ((u,v) for u,v,d in edges)
         return edges
-    
-    
+
+    def constrained_flexible(self, source, destination, **metrics): # This is very much the brute force method, bu
+        metricCombos = []
+        length = len(metrics)
+        for i in range(0,length+1):
+            metricCombos.extend(combinations(metrics.items(),length-i))
+
+        combos = []
+        for x in metricCombos:
+            tempDict = {}
+            for k,v in x:
+                tempDict[k] = v
+            combos.append(tempDict)
+        results = []
+        for x in combos:
+            res0 = self.constrained_shortest_paths(source,destination,**x)
+            if x != []:
+                results.append((res0,x))
+        return results
