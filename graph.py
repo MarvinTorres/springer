@@ -104,20 +104,17 @@ class KytosGraph:
         return edges
 
     def constrained_flexible(self, source, destination, **metrics): # This is very much the brute force method, bu
-        metricCombos = []
-        length = len(metrics)
-        for i in range(0,length+1):
-            metricCombos.extend(combinations(metrics.items(),length-i))
-
         combos = []
-        for x in metricCombos:
-            tempDict = {}
-            for k,v in x:
-                tempDict[k] = v
-            combos.append(tempDict)
+        length = len(metrics)
         results = []
-        for x in combos:
-            res0 = self.constrained_shortest_paths(source,destination,**x)
-            if x != []:
-                results.append((res0,x))
+        for i in range(0,length+1):
+            y = combinations(metrics.items(),length-i)
+            found = False
+            for x in y:
+                tempDict = {}
+                for k,v in x:
+                    tempDict[k] = v
+                res0 = self.constrained_shortest_paths(source,destination,**tempDict)
+                if res0 != []:
+                    results.append((res0,tempDict))
         return results
