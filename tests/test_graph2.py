@@ -40,7 +40,7 @@ class TestGraph2(TestKytosGraph):
         self.setup()
         combos = combinations(["User1","User2","User3","User4"],2)
         for point_a, point_b in combos:
-            results = self.get_path_constrained(point_a, point_b, False, ownership = "B")
+            results = self.get_path_constrained(point_a, point_b, 0, ownership = "B")
             for result in results:
                 for path in result["paths"]:
                     self.assertNotIn("S4:1", path)
@@ -62,7 +62,7 @@ class TestGraph2(TestKytosGraph):
         self.setup()
         combos = combinations(["User1","User2","User3","User4"],2)
         for point_a, point_b in combos:
-            results = self.get_path_constrained(point_a, point_b, False, reliability = 3)
+            results = self.get_path_constrained(point_a, point_b, 0, reliability = 3)
             for result in results:
                 for path in result["paths"]:
                     self.assertNotIn("S4:1", path)
@@ -76,7 +76,7 @@ class TestGraph2(TestKytosGraph):
         self.setup()
         combos = combinations(["User1","User2","User3","User4"],2)
         for point_a, point_b in combos:
-            results = self.get_path_constrained(point_a, point_b, False, bandwidth = 100)
+            results = self.get_path_constrained(point_a, point_b, 0, bandwidth = 100)
             for result in results:
                 for path in result["paths"]:
                     self.assertNotIn("S3:1", path)
@@ -90,7 +90,7 @@ class TestGraph2(TestKytosGraph):
         self.setup()
         combos = combinations(["User1","User2","User3","User4"],2)
         for point_a, point_b in combos:
-            results = self.get_path_constrained(point_a, point_b, False, delay = 50)
+            results = self.get_path_constrained(point_a, point_b, 0, delay = 50)
             for result in results:
                 for path in result["paths"]:
                     self.assertNotIn("S1:1", path)
@@ -121,7 +121,7 @@ class TestGraph2(TestKytosGraph):
         self.setup()
         combos = combinations(["User1","User2","User3","User4"],2)
         for point_a, point_b in combos:
-            results = self.get_path_constrained(point_a, point_b, False, delay = 50, bandwidth = 100, reliability = 3, ownership = "B")
+            results = self.get_path_constrained(point_a, point_b, 0, delay = 50, bandwidth = 100, reliability = 3, ownership = "B")
             for result in results:
                 for path in result["paths"]:
                     # delay = 50 checks
@@ -184,7 +184,7 @@ class TestGraph2(TestKytosGraph):
         self.setup()
         combos = combinations(["User1","User2","User3","User4"],2)
         for point_a, point_b in combos:
-            results = self.get_path_constrained(point_a, point_b, True, delay = 50, bandwidth = 100, reliability = 3, ownership = "B")
+            results = self.get_path_constrained(point_a, point_b, 4, delay = 50, bandwidth = 100, reliability = 3, ownership = "B")
             for result in results:
                 # delay = 50 checks
                 if "delay" in result["metrics"]:
