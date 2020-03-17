@@ -1,7 +1,13 @@
 """Module Graph of kytos/pathfinder Kytos Network Application."""
 
-import networkx as nx
-from networkx.exception import NetworkXNoPath, NodeNotFound
+from kytos.core import log
+
+try:
+    import networkx as nx
+    from networkx.exception import NodeNotFound, NetworkXNoPath
+except ImportError:
+    PACKAGE = 'networkx>=2.2'
+    log.error(f"Package {PACKAGE} not found. Please 'pip install {PACKAGE}'")
 
 from itertools import combinations
 
