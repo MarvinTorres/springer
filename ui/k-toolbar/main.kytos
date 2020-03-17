@@ -14,6 +14,16 @@
         </k-button>
 
       </k-accordion-item>
+      <k-accordion-item title="Best Constrained Path">
+        <k-dropdown icon="circle-o" title="Source:" :options="get_interfaces"
+          :value.sync="source"></k-dropdown>
+        <k-dropdown icon="circle-o" title="Destination:" :options="get_interfaces"
+          :value.sync ="destination"></k-dropdown>
+        <k-button icon="search" title="Search" :on_click="get_constrained_paths">
+        </k-button>
+
+      </k-accordion-item>
+
     <k-accordion>
   </k-toolbar-item>
 </template>
@@ -38,6 +48,29 @@ module.exports = {
         success: function(data) {
             if (data['paths'][0] !== undefined){
                 self.paths = data['paths'][0].hops;
+            } else {
+                self.paths = []
+            }
+          self.show();
+        }
+      });
+
+    },
+    get_constrained_paths (){
+      var self = this
+      $.ajax({
+        async: true,
+        dataType: "json",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({"source": self.source,
+               "destination": self.destination
+               }),
+
+        url: this.$kytos_server_api + "kytos/pathfinder/v3",
+        success: function(data) {
+            if (data[0] !== undefined){
+                self.paths = data[0]['paths'][0];
             } else {
                 self.paths = []
             }
